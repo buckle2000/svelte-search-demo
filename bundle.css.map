@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "file": "bundle.css",
+  "sources": [
+    "../src/App.svelte"
+  ],
+  "sourcesContent": [
+    "<script>\nexport let dataset = Object.assign([], {\n  dummy: true,\n  columns: []\n})\n\nconst SEARCH_RESULT_LIMIT = 100\nlet searchTerm = ''\n\n$: columns = dataset.columns\n$: results = dataset.filter(x => String(x.name)\n                                .toLowerCase()\n                                .indexOf(searchTerm.toLowerCase())\n                              !== -1)\n$: count = results.length\n</script>\n\n<style>\n  h1 {\n    color: purple;\n  }\n</style>\n\n<h1>Simple anime search app</h1>\n\n<div class=\"search\">\n  <input type=\"text\" bind:value={searchTerm}>\n  <span>Total results: {count}</span>\n</div>\n\n{#if dataset.dummy}\n  Loading...\n{:else}\n  {#if count === 0}\n    <p>No results found</p>\n  {:else}\n    <table>\n      <thead>\n      <tr>\n      {#each columns as key}\n        <th>{key}</th>\n      {/each}\n      </tr>\n      </thead>\n      <tbody>\n      {#each results.slice(0, SEARCH_RESULT_LIMIT) as item}\n        <tr>\n        {#each columns as key}\n          <td>{@html item[key]}</td>\n        {/each}\n        </tr>\n      {/each}\n      </tbody>\n    </table>\n    {#if count > SEARCH_RESULT_LIMIT}\n      <p>I'm afraid I can't show that much results, or your browser will be slowed down</p>\n    {/if}\n  {/if}\n{/if}\n"
+  ],
+  "names": [],
+  "mappings": "AAkBE,EAAE,eAAC,CAAC,AACF,KAAK,CAAE,MAAM,AACf,CAAC"
+}
